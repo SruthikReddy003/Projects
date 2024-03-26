@@ -25,7 +25,7 @@ def first(s, productions):
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 
-def follow(s, productions, start_symbol, first_sets):
+def follow(s, productions, start_symbol):
     follow = set()
 
     # Add $ to the start symbol's FOLLOW set
@@ -42,7 +42,7 @@ def follow(s, productions, start_symbol, first_sets):
                         follow |= first_sets[next_sym]
                         follow.discard('eps')
                         if 'eps' in first_sets[next_sym] or idx == len(p) - 1:
-                            follow |= follow(nt, productions, start_symbol, first_sets)
+                            follow |= follow(nt, productions, start_symbol)
                     else:
                         follow.add(next_sym)
 
@@ -68,7 +68,8 @@ for symbol in productions.keys():
 # Calculate FOLLOW sets for each non-terminal symbol
 follow_sets = {}
 for symbol in productions.keys():
-    follow_sets[symbol] = follow(symbol, productions, start_symbol, first_sets)
+    follow_sets[symbol] = follow(symbol, productions, start_symbol)
+
 
 # Print FIRST and FOLLOW sets
 print("FIRST Sets:")
@@ -81,16 +82,16 @@ for symbol, follow_set in follow_sets.items():
 #-------------------------------------------------------------------------------------------------------------------------------------
 
 # Got Function
-def goto(current_state, productions, symbol):
+def goto(s, productions, state):
     # Get the productions for the current state
-    current_productions = productions.get(current_state, [])
+    current_productions = productions.get(state, [])
     
     # Iterate through the productions
     for production in current_productions:
-        # Check if the input symbol is present in the production
-        if symbol in production:
-            # Find the index of the input symbol in the production
-            index = production.index(symbol)
+        # Check if the non-terminal symbol s is present in the production
+        if s in production:
+            # Find the index of the non-terminal symbol s in the production
+            index = production.index(s)
             # Check if there is a next state
             if index + 1 < len(production):
                 return production[index + 1]  # Return the next state
@@ -105,11 +106,11 @@ productions = {
 }
 
 # Example usage:
-current_state = 'S'
-input_symbol = 'A'
-next_state = goto(current_state, productions, input_symbol)
+s = 'A'  # Non-terminal symbol
+state = 'S'  # Current state
+next_state = goto(s, productions, state)
 if next_state is not None:
-    print(f"Transition from {current_state} with symbol {input_symbol}: {next_state}")
+    print(f"Transition from {state} with symbol {s}: {next_state}")
 else:
-    print(f"No transition found for symbol {input_symbol} in state {current_state}")
-     
+    print(f"No transition found for symbol {s} in state {state}")
+
