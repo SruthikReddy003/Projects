@@ -23,6 +23,7 @@ def first(s, productions):
 
     return first_set
 
+# -------------------------------------------------------------------------------------------------------------------------------------
 
 def follow(s, productions, start_symbol, first_sets):
     follow = set()
@@ -77,3 +78,38 @@ for symbol, first_set in first_sets.items():
 print("\nFOLLOW Sets:")
 for symbol, follow_set in follow_sets.items():
     print(f"FOLLOW({symbol}): {follow_set}")
+#-------------------------------------------------------------------------------------------------------------------------------------
+
+# Got Function
+def goto(current_state, productions, symbol):
+    # Get the productions for the current state
+    current_productions = productions.get(current_state, [])
+    
+    # Iterate through the productions
+    for production in current_productions:
+        # Check if the input symbol is present in the production
+        if symbol in production:
+            # Find the index of the input symbol in the production
+            index = production.index(symbol)
+            # Check if there is a next state
+            if index + 1 < len(production):
+                return production[index + 1]  # Return the next state
+    return None  # No transition found
+
+# Given productions
+productions = {
+    'S': ['AB', 'BC'],
+    'A': ['aA', ''],
+    'B': ['bB', ''],
+    'C': ['cC', '']
+}
+
+# Example usage:
+current_state = 'S'
+input_symbol = 'A'
+next_state = goto(current_state, productions, input_symbol)
+if next_state is not None:
+    print(f"Transition from {current_state} with symbol {input_symbol}: {next_state}")
+else:
+    print(f"No transition found for symbol {input_symbol} in state {current_state}")
+    
