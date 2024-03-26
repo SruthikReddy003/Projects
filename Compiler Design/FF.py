@@ -112,4 +112,4 @@ if next_state is not None:
     print(f"Transition from {current_state} with symbol {input_symbol}: {next_state}")
 else:
     print(f"No transition found for symbol {input_symbol} in state {current_state}")
-    
+     
