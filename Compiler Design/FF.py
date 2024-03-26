@@ -80,7 +80,7 @@ print("\nFOLLOW Sets:")
 for symbol, follow_set in follow_sets.items():
     print(f"FOLLOW({symbol}): {follow_set}")
 #-------------------------------------------------------------------------------------------------------------------------------------
-
+print("")
 # Got Function
 def goto(s, productions, state):
     # Get the productions for the current state
