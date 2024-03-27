@@ -113,4 +113,22 @@ if next_state is not None:
     print(f"Transition from {state} with symbol {s}: {next_state}")
 else:
     print(f"No transition found for symbol {s} in state {state}")
+# ------------------------------------------------------------------------------------------------------------------------------------
+# Closure
+def closure(items, grammar):
+    closure_items = set(items)
 
+    while True:
+        new_items = {next_sym + '->.' + prod for item in closure_items
+                     if (dot_index := item.index('.')) < len(item) - 1
+                     for next_sym in [item[dot_index + 1]]
+                     if next_sym in grammar
+                     for prod in grammar[next_sym]
+                     if next_sym + '->.' + prod not in closure_items}
+        
+        if not new_items:
+            break
+            
+        closure_items |= new_items
+
+    return closure_items
