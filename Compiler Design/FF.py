@@ -22,7 +22,6 @@ def first(s, productions):
                 break
 
     return first_set
-
 # -------------------------------------------------------------------------------------------------------------------------------------
 
 def follow(s, productions, start_symbol):
@@ -132,3 +131,11 @@ def closure(items, grammar):
         closure_items |= new_items
 
     return closure_items
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Augmented Grammar
+def augment_grammar(grammar, start_symbol):
+    augmented_grammar = grammar.copy()
+    augmented_start_symbol = start_symbol + "'"
+    augmented_grammar[augmented_start_symbol] = [start_symbol]
+
+    return augmented_grammar, augmented_start_symbol 
